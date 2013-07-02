@@ -107,7 +107,7 @@ require([
 			}else{
 				_interval = setInterval(function(){
 					if(!_pause){ func.apply(mod, [r.parameter.apply(grid, [])]); }
-				}, 500);
+				}, 100);
 			}
 			
 		}
