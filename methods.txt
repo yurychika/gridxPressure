@@ -1,5 +1,4 @@
 grid.when();
-grid.setColumns();
 grid.row();
 grid.column();
 grid.cell();
@@ -38,7 +37,6 @@ grid.move.row.move();
 grid.move.row.moveRange();
 grid.move.column.move();
 grid.move.column.moveRange();
-grid.paginationBar.refresh();
 grid.body.getRowNode();
 grid.body.getCellNode();
 grid.body.refresh();
@@ -104,14 +102,16 @@ grid.tree.expandRecursive();
 grid.tree.collapseRecursive();
 grid.view.getRowInfo();
 grid.vLayout.reLayout();
-grid.vScroller.scrollToRow();
 
 
 ========================done==========================
 grid.resize();
 grid.setStore();
+grid.setColumns();
 grid.pagination.setPageSize();
 grid.pagination.gotoPage();
+grid.paginationBar.refresh();
+grid.vScroller.scrollToRow();
 
 
 

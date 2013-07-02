@@ -53,7 +53,9 @@ require([
 			modules: [
 				'gridx/modules/Pagination',
 				'gridx/modules/pagination/PaginationBar',
-				'gridx/modules/VirtualVScroller'
+				'gridx/modules/VirtualVScroller',
+				'gridx/modules/RowHeader',
+				'gridx/modules/SingleSort'
 			],
 			paginationInitialPageSize: 100
 		});
@@ -89,7 +91,7 @@ require([
 				_routine = function(){
 					if(!_pause){
 						console.log('in not pause');
-						func.apply(mod, [r.parameter.apply(grid, [])]).then(function(){
+						func.apply(mod, r.parameter.apply(grid, [])).then(function(){
 							if(typeof _routine == 'function'){ 
 								_routine(); 
 							}else{ 
