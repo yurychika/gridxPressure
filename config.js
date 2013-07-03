@@ -21,16 +21,16 @@ define([
 				// return [Math.floor(Math.random()*100)];
 			// }
 		// },		
-		{
-			forced: ['vScroller'],
-			mod: 'vScroller',
-			func: 'scrollToRow',
-			deferred: true,
-			parameter: function(){
-				var c = this.view.visualCount;
-				return [Math.floor(Math.random()*100) % c];
-			}
-		},
+		// {
+			// forced: ['vScroller'],
+			// mod: 'vScroller',
+			// func: 'scrollToRow',
+			// deferred: true,
+			// parameter: function(){
+				// var c = this.view.visualCount;
+				// return [Math.floor(Math.random()*100) % c];
+			// }
+		// },
 		// {
 			// forced: [],
 			// mod: '',
@@ -84,17 +84,47 @@ define([
 				// // return [Math.floor(Math.random()*100) % c];
 			// }
 		// },
+		// {
+			// forced: [],
+			// mod: 'sort',
+			// // deferred: true,
+			// func: 'sort',
+			// parameter: function(){
+				// var colId = grid._columns[Math.floor(Math.random() * grid._columns.length)].id;
+				// var isDescending = new Date().getTime() % 2;
+				// console.log(colId, isDescending);
+				// return [colId, isDescending];
+			// }
+		// },
+		// {
+			// forced: [],
+			// mod: 'select.row',
+			// // deferred: true,
+			// func: 'selectById',
+			// parameter: function(){
+				// var count = grid.model.size();
+				// var rowId = Math.floor(Math.random() * count);
+				// return [rowId];
+			// },
+			// callback: function(){
+// 				
+			// }
+		// },
 		{
 			forced: [],
-			mod: 'sort',
-			// deferred: true,
-			func: 'sort',
+			mod: 'filterBar',
+			needRecreate: true,
+			func: 'showFilterDialog',
 			parameter: function(){
-				var colId = grid._columns[Math.floor(Math.random() * grid._columns.length)].id;
-				var isDescending = new Date().getTime() % 2;
-				return [colId, isDescending];
+				return [];
+			},
+			after: function(){
+				this.filterBar._filterDialog.hide();
 			}
-		}																	
+			// callback: function(){
+// 				
+			// }
+		}																					
 	];
 	
 	return {

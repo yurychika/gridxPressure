@@ -7,8 +7,9 @@ require([
 	'gridx/Grid',
 	'gridx/tests/support/stores/Memory',
 	'gridx/tests/support/data/TestData',
+	'dojo/_base/Deferred',
 	'./config.js'			
-], function(on, dom, lang, cache, modules, Grid, Memory, dataSource, config){
+], function(on, dom, lang, cache, modules, Grid, Memory, dataSource, Deferred, config){
 	var _interval;
 	var _pause = false;
 	var _next;
@@ -46,6 +47,8 @@ require([
 	];	
 	
 	var createGrid = function(){
+		var d = new Deferred();
+
 		grid = new Grid({
 			cacheClass: cache,
 			store: jsonMemoryStore,
@@ -55,13 +58,20 @@ require([
 				'gridx/modules/pagination/PaginationBar',
 				'gridx/modules/VirtualVScroller',
 				'gridx/modules/RowHeader',
-				'gridx/modules/SingleSort'
+				'gridx/modules/SingleSort',
+				'gridx/modules/extendedSelect/Row',
+				'gridx/modules/IndirectSelect',
+				'gridx/modules/Filter',
+				'gridx/modules/filter/FilterBar'
 			],
 			paginationInitialPageSize: 100
 		});
-		
+		grid.connect(grid, 'onModulesLoaded', function(){
+			d.callback();
+		});
 		grid.placeAt('gridContainer');
 		grid.startup();
+		return d;
 	
 	};
 	
@@ -83,8 +93,7 @@ require([
 			r = routines.shift();
 			
 		if(r){
-			var mod = r.mod? grid[r.mod] : grid,
-				func = mod[r.func];
+			var needRecreate = r.needRecreate;
 				
 			if(r.deferred){
 				console.log('r deferred is:', r);
@@ -108,8 +117,22 @@ require([
 				_routine();
 			}else{
 				_interval = setInterval(function(){
-					if(!_pause){ func.apply(mod, [r.parameter.apply(grid, [])]); }
-				}, 100);
+					if(needRecreate){
+						grid.destroy();
+						createGrid();
+					}	
+					var mod = r.mod? (r.mod.indexOf('.') >= 0? grid[r.mod.split('.')[0]][r.mod.split('.')[1]] : grid[r.mod]) : grid,
+						func = mod[r.func];							
+					if(!_pause){
+						func.apply(mod, r.parameter.apply(grid, [])); 
+	
+						if(r.after && typeof r.after == 'function'){
+							setTimeout(function(){
+								r.after.apply(grid, []);
+							}, 100);
+						}
+					}
+				}, 1000);
 			}
 			
 		}

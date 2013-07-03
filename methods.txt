@@ -6,7 +6,6 @@ grid.rows();
 grid.columns();
 grid.rowCount();
 grid.columnCount();
-grid.select.row.selectById();
 grid.select.row.selectByIndex();
 grid.select.row.deselectById();
 grid.select.row.deselectByIndex();
@@ -74,7 +73,6 @@ grid.hScroller.refresh();
 grid.menu.bind();
 grid.menu.unbind();
 grid.sort.isSorted();
-grid.sort.sort();
 grid.sort.clear();
 grid.sort.getSortData();
 grid.pagination.pageSize();
@@ -112,6 +110,8 @@ grid.pagination.setPageSize();
 grid.pagination.gotoPage();
 grid.paginationBar.refresh();
 grid.vScroller.scrollToRow();
+grid.sort.sort();
+grid.select.row.selectById();
 
 
 
