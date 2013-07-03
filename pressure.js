@@ -117,7 +117,8 @@ require([
 				_routine();
 			}else{
 				_interval = setInterval(function(){
-					if(needRecreate){
+					if(needRecreate){		//some pressure test case may need to destroy the grid to see
+											//if all the resources have been destroyed
 						grid.destroy();
 						createGrid();
 					}	
@@ -143,7 +144,11 @@ require([
 		nextRoutine();
 	};
 	
-	
+	// setInterval(function(){
+		// setTimeout(function(){
+			// grid.destroy();
+		// }, 500);
+	// }, 1000);
 	createGrid();
 	run();
 	

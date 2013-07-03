@@ -96,20 +96,18 @@ define([
 				// return [colId, isDescending];
 			// }
 		// },
-		// {
-			// forced: [],
-			// mod: 'select.row',
-			// // deferred: true,
-			// func: 'selectById',
-			// parameter: function(){
-				// var count = grid.model.size();
-				// var rowId = Math.floor(Math.random() * count);
-				// return [rowId];
-			// },
-			// callback: function(){
-// 				
-			// }
-		// },
+		{
+			forced: [],
+			mod: 'select.row',
+			// deferred: true,
+			needRecreate: true,
+			func: 'selectById',
+			parameter: function(){
+				var count = grid.model.size();
+				var rowId = Math.floor(Math.random() * count);
+				return [rowId];
+			}
+		},
 		{
 			forced: [],
 			mod: 'filterBar',
@@ -121,9 +119,6 @@ define([
 			after: function(){
 				this.filterBar._filterDialog.hide();
 			}
-			// callback: function(){
-// 				
-			// }
 		}																					
 	];
 	
