@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href='../dijit/themes/claro/claro.css'>
+		<link rel="stylesheet" href='../dijit/themes/dijit.css'>
+		<script type='text/javascript' src='../dojo/dojo.js' 
+			data-dojo-config='async:true'></script>
+	</head>
+
+	<body class='claro'>
+		<div id='btn'></div>
+		<script type='text/javascript'>
+			require(['dijit/form/Button'], function(Button) {
+				var myButton;
+				
+				var createBtn = function(){
+					myButton = new Button({
+						label : "Click me!",
+						onClick : function() {
+							// Do something:
+							// dom.byId("result1").innerHTML += "Thank you! ";
+						}
+					});
+					myButton.placeAt('btn');
+					myButton.startup();
+				}
+				
+				setInterval(function(){
+					createBtn();
+					setTimeout(function(){
+						myButton.destroy();
+						myButton = null;
+					}, 100);
+					
+				}, 200);
+
+			});
+
+		</script>
+
+	</body>
+
+</html>
