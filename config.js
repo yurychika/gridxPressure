@@ -1,7 +1,8 @@
 define([
+	'dojo/_base/query',
 	'gridx/tests/support/stores/Memory',
 	'gridx/tests/support/data/TestData'
-], function(Memory, dataSource){
+], function(query, Memory, dataSource){
 	var routines = [
 		// {
 			// forced: ['pagination', 'paginationBar'],
@@ -96,30 +97,50 @@ define([
 				// return [colId, isDescending];
 			// }
 		// },
+		// {
+			// forced: [],
+			// mod: 'select.row',
+			// // deferred: true,
+			// needRecreate: true,
+			// func: 'selectById',
+			// parameter: function(){
+				// var count = grid.model.size();
+				// var rowId = Math.floor(Math.random() * count);
+				// return [rowId];
+			// }
+		// },
+		// {
+			// forced: [],
+			// mod: 'filterBar',
+			// needRecreate: true,
+			// func: 'showFilterDialog',
+			// parameter: function(){
+				// return [];
+			// },
+			// after: function(){
+				// this.filterBar._filterDialog.hide();
+			// }
+		// },
 		{
 			forced: [],
-			mod: 'select.row',
-			// deferred: true,
+			mod: '',
 			needRecreate: true,
-			func: 'selectById',
-			parameter: function(){
-				var count = grid.model.size();
-				var rowId = Math.floor(Math.random() * count);
-				return [rowId];
-			}
-		},
-		{
-			forced: [],
-			mod: 'filterBar',
-			needRecreate: true,
-			func: 'showFilterDialog',
+			func: function(){
+				var gotoBtn = dijit.byNode(dojo.query('.gridxPagerGotoBtn', this.domNode)[0]);
+				if(gotoBtn){
+					gotoBtn._showGotoDialog();
+				}
+			},
 			parameter: function(){
 				return [];
 			},
 			after: function(){
-				this.filterBar._filterDialog.hide();
+				var gotoBtn = dijit.byNode(dojo.query('.gridxPagerGotoBtn', this.domNode)[0]);
+				if(gotoBtn){
+					gotoBtn._gotoDialog.hide();
+				}
 			}
-		}																					
+		}																								
 	];
 	
 	return {

@@ -123,7 +123,7 @@ require([
 						createGrid();
 					}	
 					var mod = r.mod? (r.mod.indexOf('.') >= 0? grid[r.mod.split('.')[0]][r.mod.split('.')[1]] : grid[r.mod]) : grid,
-						func = mod[r.func];							
+						func = typeof r.func == 'string' ? mod[r.func] : r.func;							
 					if(!_pause){
 						func.apply(mod, r.parameter.apply(grid, [])); 
 	
