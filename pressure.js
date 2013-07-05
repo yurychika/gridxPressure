@@ -14,6 +14,7 @@ require([
 	var _pause = false;
 	var _next;
 	var _routine;
+	var consoleNode = document.getElementById('console');
 	
 	on(document.getElementById('startButton'), 'click', function(){
 		_pause = false;
@@ -97,9 +98,16 @@ require([
 				
 			if(r.deferred){
 				console.log('r deferred is:', r);
-				_routine = function(){
+				_routine = function(){hi
 					if(!_pause){
-						console.log('in not pause');
+						if(needRecreate){		//some pressure test case may need to destroy the grid to see
+												//if all the resources have been destroyed
+							grid.destroy();
+							createGrid();
+						}	
+						var mod = r.mod? (r.mod.indexOf('.') >= 0? grid[r.mod.split('.')[0]][r.mod.split('.')[1]] : grid[r.mod]): grid,
+							func = typeof r.func == 'string' ? mod[r.func] : r.func;	
+									
 						func.apply(mod, r.parameter.apply(grid, [])).then(function(){
 							if(typeof _routine == 'function'){ 
 								_routine(); 
@@ -122,7 +130,7 @@ require([
 						grid.destroy();
 						createGrid();
 					}	
-					var mod = r.mod? (r.mod.indexOf('.') >= 0? grid[r.mod.split('.')[0]][r.mod.split('.')[1]] : grid[r.mod]) : grid,
+					var mod = r.mod? (r.mod.indexOf('.') >= 0? grid[r.mod.split('.')[0]][r.mod.split('.')[1]] : grid[r.mod]): grid,
 						func = typeof r.func == 'string' ? mod[r.func] : r.func;							
 					if(!_pause){
 						func.apply(mod, r.parameter.apply(grid, [])); 
@@ -135,6 +143,14 @@ require([
 					}
 				}, 1000);
 			}
+			var msg;
+			if(r.description){
+				msg = r.description;
+			}else{
+				msg = (r.mod? r.mod : 'grid') + '.' + (typeof r.func == 'string'? r.func : '');
+			}
+			var msgNode = "<div><p>" + msg + "</p></div>";
+			consoleNode.innerHTML += msgNode; 
 			
 		}
 	};
