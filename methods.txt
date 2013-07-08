@@ -27,9 +27,6 @@ grid.select.cell.isSelected();
 grid.filterBar.applyFilter();
 grid.filterBar.refresh();
 grid.filterBar.isVisible();
-grid.filterBar.show();
-grid.filterBar.hide();
-grid.filterBar.showFilterDialog();
 grid.move.row.move();
 grid.move.row.moveRange();
 grid.move.column.move();
@@ -113,9 +110,7 @@ grid.select.row.selectById();
 grid.select.row.selectByIndex();
 grid.select.row.deselectByIndex();
 grid.filterBar.show();
-
-
-
-
+grid.filterBar.hide();
+grid.filterBar.showFilterDialog();
 
 

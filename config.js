@@ -123,6 +123,7 @@ define([
 				// return [colId, isDescending];
 			// }
 		// },
+		//============================ select.row ===============================
 		// {
 			// forced: [],
 			// mod: 'select.row',
@@ -189,11 +190,13 @@ define([
 			after: function(){
 				delete this._tempt;
 			}
-		},				
+		},	
+		
+		//======================= filter bar ===========================			
 		{
 			forced: [],
 			mod: 'filterBar',
-			needRecreate: true,
+			// needRecreate: true,
 			func: 'showFilterDialog',
 			parameter: function(){
 				return [];
@@ -210,7 +213,30 @@ define([
 				console.log('filter bar refersh');
 				return [];
 			}
+		},	
+		{
+			forced: [],
+			mod: 'filterBar',
+			func: 'show',
+			parameter: function(){
+				return [];
+			},
+			after: function(){
+				this.filterBar.hide();
+			}
 		},		
+		{
+			forced: [],
+			mod: 'filterBar',
+			func: 'hide',
+			before: function(){
+				this.filterBar.show();
+			},
+			parameter: function(){
+				return [];
+			},
+		},		
+		//==================== pagination ===========================s				
 		{
 			forced: [],
 			mod: '',		//if mod is empty, will be replaced by the grid object
