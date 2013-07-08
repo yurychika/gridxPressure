@@ -3,6 +3,32 @@ define([
 	'gridx/tests/support/stores/Memory',
 	'gridx/tests/support/data/TestData'
 ], function(query, Memory, dataSource){
+
+	/**
+	 *
+	 * 	pressure test case structure
+	 * {
+	 * 		mod: 'pagination',			//string:
+	 * 									//		the name of the module where functions will be called on
+	 * 									//		if is '', means functions will be called on gridx
+	 * 		func: 'gotoPage',			//string:
+	 * 									//		the name of the function that will be called
+	 * 									//function:
+	 * 									//		the self-defined function to be called
+	 * 		parameter: function(){		//function:
+	 * 			return [];				//		return the parameter that will be applied to the func
+	 * 		}	
+	 * 		deferred: true || false		//bool:
+	 * 									//		indicate if the test case if an async process,
+	 * 									//		also means that the func will return a deferred object
+	 * 		needRecreate: true || fasle	//bool:
+	 * 									//		indicate if the test case will need to create a new gridx
+	 * 									//		everytime it runs
+	 * 
+	 * }
+	 *  
+	 */
+	
 	var routines = [
 		// {
 			// forced: ['pagination', 'paginationBar'],
@@ -55,60 +81,115 @@ define([
 				// return [store];
 			// }
 		// },
-		{
-			forced: [],
-			mod: '',
-			func: 'setColumns',
-			parameter: function(){
-				var count = dataSource.layouts.length;
-				var columns =dataSource.layouts[Math.floor(Math.random() * count)];
-				return [columns];
-			}
-		},
-		{
-			forced: [],
-			mod: 'body',
-			// deferred: true,
-			func: 'refresh',
-			parameter: function(){
-				var c = this.view.visualCount;
-				return [Math.floor(Math.random()*100) % c];
-			}
-		},
-		{
-			forced: [],
-			mod: 'paginationBar',
-			// deferred: true,
-			func: 'refresh',
-			parameter: function(){
+		// {
+			// forced: [],
+			// mod: '',
+			// func: 'setColumns',
+			// parameter: function(){
+				// var count = dataSource.layouts.length;
+				// var columns =dataSource.layouts[Math.floor(Math.random() * count)];
+				// return [columns];
+			// }
+		// },
+		// {
+			// forced: [],
+			// mod: 'body',
+			// // deferred: true,
+			// func: 'refresh',
+			// parameter: function(){
 				// var c = this.view.visualCount;
 				// return [Math.floor(Math.random()*100) % c];
-			}
-		},
-		{
-			forced: [],
-			mod: 'sort',
-			// deferred: true,
-			func: 'sort',
-			parameter: function(){
-				var colId = grid._columns[Math.floor(Math.random() * grid._columns.length)].id;
-				var isDescending = new Date().getTime() % 2;
-				console.log(colId, isDescending);
-				return [colId, isDescending];
-			}
-		},
+			// }
+		// },
+		// {
+			// forced: [],
+			// mod: 'paginationBar',
+			// // deferred: true,
+			// func: 'refresh',
+			// parameter: function(){
+				// // var c = this.view.visualCount;
+				// // return [Math.floor(Math.random()*100) % c];
+			// }
+		// },
+		// {
+			// forced: [],
+			// mod: 'sort',
+			// // deferred: true,
+			// func: 'sort',
+			// parameter: function(){
+				// var colId = grid._columns[Math.floor(Math.random() * grid._columns.length)].id;
+				// var isDescending = new Date().getTime() % 2;
+				// console.log(colId, isDescending);
+				// return [colId, isDescending];
+			// }
+		// },
+		// {
+			// forced: [],
+			// mod: 'select.row',
+			// // deferred: true,
+			// needRecreate: true,
+			// func: 'selectById',
+			// parameter: function(){
+				// var count = grid.model.size();
+				// var rowId = Math.floor(Math.random() * count);
+				// return [rowId];
+			// }
+		// },
 		{
 			forced: [],
 			mod: 'select.row',
 			// deferred: true,
-			needRecreate: true,
-			func: 'selectById',
-			parameter: function(){
+			func: 'deselectById',
+			before: function(){
 				var count = grid.model.size();
 				var rowId = Math.floor(Math.random() * count);
-				return [rowId];
+				rowId = 2;
+				this.select.row.selectById(rowId);
+				this._tempt = rowId;
+			
+			},
+			parameter: function(){
+				var _t = this._tempt;
+				delete this._tempt;
+				return [_t];
 			}
-		},
+		},				
+		{
+			forced: [],
+			mod: 'select.row',
+			// deferred: true,
+			// needRecreate: true,
+			func: 'selectByIndex',
+			parameter: function(){
+				var count = this.view.visualCount;
+				var index1 = Math.floor(Math.random() * count);
+				var index2 = Math.floor(Math.random() * count);
+				return index1 < index2 ? [[index1, index2]] : [[index2, index1]];
+			},
+			after: function(){
+				this.select.row.clear();
+			}
+		},	
+		{
+			forced: [],
+			mod: 'select.row',
+			// deferred: true,
+			// needRecreate: true,
+			func: 'deselectByIndex',
+			before: function(){
+				var count = this.view.visualCount;
+				var index1 = Math.floor(Math.random() * count);
+				var index2 = Math.floor(Math.random() * count);				
+				this._tempt = index1 < index2 ? [[index1, index2]] : [[index2, index1]]; 
+				return this._tempt;
+			},
+			parameter: function(){
+				return [this._tempt];
+			},
+			after: function(){
+				delete this._tempt;
+			}
+		},				
 		{
 			forced: [],
 			mod: 'filterBar',
@@ -121,6 +202,15 @@ define([
 				this.filterBar._filterDialog.hide();
 			}
 		},
+		{
+			forced: [],
+			mod: 'filterBar',
+			func: 'refresh',
+			parameter: function(){
+				console.log('filter bar refersh');
+				return [];
+			}
+		},		
 		{
 			forced: [],
 			mod: '',		//if mod is empty, will be replaced by the grid object

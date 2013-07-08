@@ -133,8 +133,11 @@ require([
 					var mod = r.mod? (r.mod.indexOf('.') >= 0? grid[r.mod.split('.')[0]][r.mod.split('.')[1]] : grid[r.mod]): grid,
 						func = typeof r.func == 'string' ? mod[r.func] : r.func;							
 					if(!_pause){
+						if(r.before && typeof r.before == 'function'){
+							r.before.apply(grid, []);
+						}
 						func.apply(mod, r.parameter.apply(grid, [])); 
-	
+						
 						if(r.after && typeof r.after == 'function'){
 							setTimeout(function(){
 								r.after.apply(grid, []);

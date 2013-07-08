@@ -6,9 +6,7 @@ grid.rows();
 grid.columns();
 grid.rowCount();
 grid.columnCount();
-grid.select.row.selectByIndex();
 grid.select.row.deselectById();
-grid.select.row.deselectByIndex();
 grid.select.row.clear();
 grid.select.row.getSelected();
 grid.select.row.isSelected();
@@ -112,7 +110,9 @@ grid.paginationBar.refresh();
 grid.vScroller.scrollToRow();
 grid.sort.sort();
 grid.select.row.selectById();
-
+grid.select.row.selectByIndex();
+grid.select.row.deselectByIndex();
+grid.filterBar.show();
 
 
 
