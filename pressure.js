@@ -98,7 +98,7 @@ require([
 				
 			if(r.deferred){
 				console.log('r deferred is:', r);
-				_routine = function(){hi
+				_routine = function(){
 					if(!_pause){
 						if(needRecreate){		//some pressure test case may need to destroy the grid to see
 												//if all the resources have been destroyed

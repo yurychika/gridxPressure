@@ -4,30 +4,31 @@ define([
 	'gridx/tests/support/data/TestData'
 ], function(query, Memory, dataSource){
 
-	/**
-	 *
-	 * 	pressure test case structure
-	 * {
-	 * 		mod: 'pagination',			//string:
-	 * 									//		the name of the module where functions will be called on
-	 * 									//		if is '', means functions will be called on gridx
-	 * 		func: 'gotoPage',			//string:
-	 * 									//		the name of the function that will be called
-	 * 									//function:
-	 * 									//		the self-defined function to be called
-	 * 		parameter: function(){		//function:
-	 * 			return [];				//		return the parameter that will be applied to the func
-	 * 		}	
-	 * 		deferred: true || false		//bool:
-	 * 									//		indicate if the test case if an async process,
-	 * 									//		also means that the func will return a deferred object
-	 * 		needRecreate: true || fasle	//bool:
-	 * 									//		indicate if the test case will need to create a new gridx
-	 * 									//		everytime it runs
-	 * 
-	 * }
-	 *  
-	 */
+/**
+ *
+ * 	pressure test case structure
+ * {
+ * 		mod: 'pagination',			//string:
+ * 									//		the name of the module where functions will be called on
+ * 									//		if is '', means functions will be called on gridx
+ * 		func: 'gotoPage',			//string:
+ * 									//		the name of the function that will be called
+ * 									//function:
+ * 									//		the self-defined function to be called
+ * 		parameter: function()		//function:
+ * 		{		
+ * 			return [];				//		return the parameter that will be applied to the func
+ * 		}	
+ * 		deferred: true || false		//bool:
+ * 									//		indicate if the test case if an async process,
+ * 									//		also means that the func will return a deferred object
+ * 		needRecreate: true || fasle	//bool:
+ * 									//		indicate if the test case will need to create a new gridx
+ * 									//		everytime it runs
+ * 
+ * }
+ *  
+ */
 	
 	var routines = [
 		// {
