@@ -25,7 +25,6 @@ grid.select.cell.clear();
 grid.select.cell.getSelected();
 grid.select.cell.isSelected();
 grid.filterBar.applyFilter();
-grid.filterBar.refresh();
 grid.filterBar.isVisible();
 grid.move.row.move();
 grid.move.row.moveRange();
@@ -33,7 +32,6 @@ grid.move.column.move();
 grid.move.column.moveRange();
 grid.body.getRowNode();
 grid.body.getCellNode();
-grid.body.refresh();
 grid.body.refreshCell();
 grid.cellWidget.setCellDecorator();
 grid.cellWidget.restoreCellDecorator();
@@ -110,7 +108,9 @@ grid.select.row.selectById();
 grid.select.row.selectByIndex();
 grid.select.row.deselectByIndex();
 grid.filterBar.show();
+grid.filterBar.refresh();
 grid.filterBar.hide();
-grid.filterBar.showFilterDialog();
-
+grid.filterBar.showFilterDialog();			leak & fixed
+gotoBtn._showGotoDialog.
+grid.body.refresh();
 

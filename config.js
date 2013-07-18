@@ -241,7 +241,6 @@ define([
 		{
 			forced: [],
 			mod: '',		//if mod is empty, will be replaced by the grid object
-			needRecreate: true,
 			description: 'gotoBtn._showGotoDialog',
 			func: function(){
 				var gotoBtn = dijit.byNode(dojo.query('.gridxPagerGotoBtn', this.domNode)[0]);

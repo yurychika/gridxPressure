@@ -79,8 +79,12 @@ require([
 	
 	//	buttons related functions
 	var stop = function(){
-		if(_interval){ console.log(clearInterval(_interval)); }
-		if(_routine){ _routine = undefined; }
+		if(_interval){
+			console.log(clearInterval(_interval)); 
+		}
+		if(_routine){ 
+			_routine = undefined; 
+		}
 	};
 	
 	var togglePause = function(){
