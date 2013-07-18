@@ -56,6 +56,11 @@
 		.afterActionId {
 			background-color: blue;
 		}
+		
+		#buttons{
+			margin: 10px 0;
+		}
+		
 	</style>
 	<script type="text/javascript" src="../dojo/dojo.js"
 		data-dojo-config="async: true, isDebug: true"></script>
@@ -70,12 +75,18 @@
 		<button id='stopButton'>stop</button>
 		<button id='pauseButton'>pause</button>
 		<button id='nextButton'>next</button>
-		
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<select id='mode'>
+			<option value='single'>Single</option>
+			<option value='chaos'>Chaos</option>
+		</select>
 	</div>
-	<div id='gridContainer'></div>
-	<div id='console'>
-		<h2>Console</h2>
-		
+	<div>
+		<div id='gridContainer'></div>
+		<div id='console'>
+			<h2>Console</h2>
+			
+		</div>
 	</div>
 </body>
 </html>

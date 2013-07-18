@@ -15,9 +15,11 @@ require([
 	var _next;
 	var _routine;
 	var consoleNode = document.getElementById('console');
+	var _mode  = 'single';
 	
 	on(document.getElementById('startButton'), 'click', function(){
-		_pause = false;
+		// _pause = false;
+		start();
 	});
 	
 	on(document.getElementById('stopButton'), 'click', function(){
@@ -162,18 +164,56 @@ require([
 		}
 	};
 	
+	var runChaos = function(){
+		var routines = config.routines;
+		
+		function nextRoutine(){
+			var index = Math.floor(Math.random() * routines.length);
+			return routines[index];
+		}		
+		setInterval(function(){
+			var r = nextRoutine();
+			var mod = r.mod? (r.mod.indexOf('.') >= 0? grid[r.mod.split('.')[0]][r.mod.split('.')[1]] : grid[r.mod]): grid,
+				func = typeof r.func == 'string' ? mod[r.func] : r.func;	
+			
+			if(r.before && typeof r.before == 'function'){
+				r.before.apply(grid, []);
+			}
+			func.apply(mod, r.parameter.apply(grid, [])); 
+			
+			if(r.after && typeof r.after == 'function'){
+				setTimeout(function(){
+					r.after.apply(grid, []);
+				}, 100);
+			}
+		
+		}, 200);
+	}
+	
 	var run = function(){
 		var routines = config.routines;
-		nextRoutine();
+		if(_mode == 'single'){
+			nextRoutine();
+		}else{
+			runChaos();
+		}
 	};
+	
+	var start = function(){
+		var select = document.getElementById('mode');
+		_mode = select.value;
+		console.log('mode is:', _mode);
+		run();
+	};
+	
+	createGrid();
+	
 	
 	// setInterval(function(){
 		// setTimeout(function(){
 			// grid.destroy();
 		// }, 500);
 	// }, 1000);
-	createGrid();
-	run();
 	
 	console.log('config is', config);
 	
