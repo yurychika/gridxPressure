@@ -94,102 +94,51 @@ require([
 		_pause = !_pause;
 	};
 	
-	var runSingleCase = function(routine){
+	var runCase = function(routine){
 		var r = routine;
-		
-		_interval = setInterval(function(){
-			if(needRecreate){		//some pressure test case may need to destroy the grid to see
-									//if all the resources have been destroyed
-				grid.destroy();
-				createGrid();
-			}	
-			var mod = r.mod? (r.mod.indexOf('.') >= 0? grid[r.mod.split('.')[0]][r.mod.split('.')[1]] : grid[r.mod]): grid,
-				func = typeof r.func == 'string' ? mod[r.func] : r.func;							
-			if(!_pause){
-				if(r.before && typeof r.before == 'function'){
-					r.before.apply(grid, []);
-				}
-				func.apply(mod, r.parameter.apply(grid, [])); 
-				
-				if(r.after && typeof r.after == 'function'){
-					setTimeout(function(){
-						r.after.apply(grid, []);
-					}, 100);
-				}
+		if(r.needRecreate){		//some pressure test case may need to destroy the grid to see
+								//if all the resources have been destroyed
+			grid.destroy();
+			createGrid();
+		}	
+		var mod = _getMod(r.mod),
+			func = typeof r.func == 'string' ? mod[r.func] : r.func;
+		if(!_pause){
+			if(r.before && typeof r.before == 'function'){
+				r.before.apply(grid, []);
 			}
-		}, 500);	
+			func.apply(mod, r.parameter.apply(grid, [])); 
+			
+			if(r.after && typeof r.after == 'function'){
+				setTimeout(function(){
+					r.after.apply(grid, []);
+				}, 100);
+			}
+		}
 	};
 	
 	
-	var nextRoutine = function(){
+	var runSingle, 
+		nextRoutine;
+	runSingle = nextRoutine = function(){
 		stop();
-		console.log('routines is: ', config.routines);
 		var routines = config.routines,
 			r = routines.shift();
 			
 		if(r){
-			var needRecreate = r.needRecreate;
-				
-			if(r.deferred){
-				console.log('r deferred is:', r);
-				_routine = function(){
-					if(!_pause){
-						if(needRecreate){		//some pressure test case may need to destroy the grid to see
-												//if all the resources have been destroyed
-							grid.destroy();
-							createGrid();
-						}	
-						var mod = r.mod? (r.mod.indexOf('.') >= 0? grid[r.mod.split('.')[0]][r.mod.split('.')[1]] : grid[r.mod]): grid,
-							func = typeof r.func == 'string' ? mod[r.func] : r.func;	
-									
-						func.apply(mod, r.parameter.apply(grid, [])).then(function(){
-							if(typeof _routine == 'function'){ 
-								_routine(); 
-							}else{ 
-								return; 
-							}
-						});
-					}else{
-						setTimeout(function(){
-							console.log('in pause');
-							_routine();
-						}, 500);
-					}
-				};
-				_routine();
-			}else{
-				_interval = setInterval(function(){
-					if(needRecreate){		//some pressure test case may need to destroy the grid to see
-											//if all the resources have been destroyed
-						grid.destroy();
-						createGrid();
-					}	
-					var mod = r.mod? (r.mod.indexOf('.') >= 0? grid[r.mod.split('.')[0]][r.mod.split('.')[1]] : grid[r.mod]): grid,
-						func = typeof r.func == 'string' ? mod[r.func] : r.func;							
-					if(!_pause){
-						if(r.before && typeof r.before == 'function'){
-							r.before.apply(grid, []);
-						}
-						func.apply(mod, r.parameter.apply(grid, [])); 
-						
-						if(r.after && typeof r.after == 'function'){
-							setTimeout(function(){
-								r.after.apply(grid, []);
-							}, 100);
-						}
-					}
-				}, 1000);
-			}
-			var msg;
-			if(r.description){
-				msg = r.description;
-			}else{
-				msg = (r.mod? r.mod : 'grid') + '.' + (typeof r.func == 'string'? r.func : '');
-			}
-			var msgNode = "<div><p>" + msg + "</p></div>";
-			consoleNode.innerHTML += msgNode; 
-			
+			_interval = setInterval(function(){
+				runCase(r);
+			}, 200);
 		}
+		var msg;
+		if(r.description){
+			msg = r.description;
+		}else{
+			msg = (r.mod? r.mod : 'grid') + '.' + (typeof r.func == 'string'? r.func : '');
+		}
+		var msgNode = "<div><p>" + msg + "</p></div>";
+		consoleNode.innerHTML += msgNode; 
+		
 	};
 	
 	var runChaos = function(){
@@ -200,31 +149,14 @@ require([
 			return routines[index];
 		}		
 		setInterval(function(){
-			var r = nextRoutine();
-			// var mod = r.mod? (r.mod.indexOf('.') >= 0? grid[r.mod.split('.')[0]][r.mod.split('.')[1]] : grid[r.mod]): grid,
-			var mod = _getMod(r.mod),
-				func = typeof r.func == 'string' ? mod[r.func] : r.func;	
-			
-			if(r.before && typeof r.before == 'function'){
-				r.before.apply(grid, []);
-			}
-			console.log(r.parameter.apply(grid, []));
-			console.log(r.func);
-			func.apply(mod, r.parameter.apply(grid, [])); 
-			
-			if(r.after && typeof r.after == 'function'){
-				setTimeout(function(){
-					r.after.apply(grid, []);
-				}, 100);
-			}
-		
+			runCase(nextRoutine());
 		}, 200);
 	};
 	
 	var run = function(){
 		var routines = config.routines;
 		if(_mode == 'single'){
-			nextRoutine();
+			runSingle();
 		}else{
 			runChaos();
 		}
@@ -238,7 +170,6 @@ require([
 	};
 	
 	function _getMod(mod){
-		console.log('mode is: ', mod)
 		if(!mod){
 			return grid;
 		}
@@ -248,10 +179,8 @@ require([
 		array.forEach(paths, function(path){
 			mod = mod[path]? mod[path]: mod;
 		});
-		console.log(mod);
 		return mod;
 	}
-	
 	
 	createGrid();
 	
@@ -262,6 +191,5 @@ require([
 		// }, 500);
 	// }, 1000);
 	
-	console.log('config is', config);
 	
 });
