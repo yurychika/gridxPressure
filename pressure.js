@@ -208,6 +208,8 @@ require([
 			if(r.before && typeof r.before == 'function'){
 				r.before.apply(grid, []);
 			}
+			console.log(r.parameter.apply(grid, []));
+			console.log(r.func);
 			func.apply(mod, r.parameter.apply(grid, [])); 
 			
 			if(r.after && typeof r.after == 'function'){
@@ -236,6 +238,7 @@ require([
 	};
 	
 	function _getMod(mod){
+		console.log('mode is: ', mod)
 		if(!mod){
 			return grid;
 		}
@@ -245,7 +248,7 @@ require([
 		array.forEach(paths, function(path){
 			mod = mod[path]? mod[path]: mod;
 		});
-		
+		console.log(mod);
 		return mod;
 	}
 	

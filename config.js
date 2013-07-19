@@ -108,6 +108,7 @@ define([
 			// deferred: true,
 			func: 'refresh',
 			parameter: function(){
+				return [];
 				// var c = this.view.visualCount;
 				// return [Math.floor(Math.random()*100) % c];
 			}
@@ -235,9 +236,9 @@ define([
 			},
 			parameter: function(){
 				return [];
-			},
-		},		
-		//==================== pagination ===========================s				
+			}
+		},
+//==================== pagination ===========================				
 		{
 			forced: [],
 			mod: '',		//if mod is empty, will be replaced by the grid object
