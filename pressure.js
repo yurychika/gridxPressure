@@ -2,6 +2,7 @@ require([
 	'dojo/on',
 	'dojo/dom',
 	'dojo/_base/lang',
+	'dojo/_base/array',
 	'gridx/core/model/cache/Sync',
 	'gridx/allModules',
 	'gridx/Grid',
@@ -9,7 +10,7 @@ require([
 	'gridx/tests/support/data/TestData',
 	'dojo/_base/Deferred',
 	'./config.js'			
-], function(on, dom, lang, cache, modules, Grid, Memory, dataSource, Deferred, config){
+], function(on, dom, lang, array, cache, modules, Grid, Memory, dataSource, Deferred, config){
 	var _interval;
 	var _pause = false;
 	var _next;
@@ -93,6 +94,33 @@ require([
 		_pause = !_pause;
 	};
 	
+	var runSingleCase = function(routine){
+		var r = routine;
+		
+		_interval = setInterval(function(){
+			if(needRecreate){		//some pressure test case may need to destroy the grid to see
+									//if all the resources have been destroyed
+				grid.destroy();
+				createGrid();
+			}	
+			var mod = r.mod? (r.mod.indexOf('.') >= 0? grid[r.mod.split('.')[0]][r.mod.split('.')[1]] : grid[r.mod]): grid,
+				func = typeof r.func == 'string' ? mod[r.func] : r.func;							
+			if(!_pause){
+				if(r.before && typeof r.before == 'function'){
+					r.before.apply(grid, []);
+				}
+				func.apply(mod, r.parameter.apply(grid, [])); 
+				
+				if(r.after && typeof r.after == 'function'){
+					setTimeout(function(){
+						r.after.apply(grid, []);
+					}, 100);
+				}
+			}
+		}, 500);	
+	};
+	
+	
 	var nextRoutine = function(){
 		stop();
 		console.log('routines is: ', config.routines);
@@ -173,7 +201,8 @@ require([
 		}		
 		setInterval(function(){
 			var r = nextRoutine();
-			var mod = r.mod? (r.mod.indexOf('.') >= 0? grid[r.mod.split('.')[0]][r.mod.split('.')[1]] : grid[r.mod]): grid,
+			// var mod = r.mod? (r.mod.indexOf('.') >= 0? grid[r.mod.split('.')[0]][r.mod.split('.')[1]] : grid[r.mod]): grid,
+			var mod = _getMod(r.mod),
 				func = typeof r.func == 'string' ? mod[r.func] : r.func;	
 			
 			if(r.before && typeof r.before == 'function'){
@@ -188,7 +217,7 @@ require([
 			}
 		
 		}, 200);
-	}
+	};
 	
 	var run = function(){
 		var routines = config.routines;
@@ -205,6 +234,21 @@ require([
 		console.log('mode is:', _mode);
 		run();
 	};
+	
+	function _getMod(mod){
+		if(!mod){
+			return grid;
+		}
+		var paths = mod.split('.');
+
+		mod = grid;
+		array.forEach(paths, function(path){
+			mod = mod[path]? mod[path]: mod;
+		});
+		
+		return mod;
+	}
+	
 	
 	createGrid();
 	
