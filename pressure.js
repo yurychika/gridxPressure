@@ -112,8 +112,9 @@ require([
 			if(r.after && typeof r.after == 'function'){
 				setTimeout(function(){
 					r.after.apply(grid, []);
-				}, 100);
+				}, 200);
 			}
+			_log(r);
 		}
 	};
 	
@@ -130,14 +131,7 @@ require([
 				runCase(r);
 			}, 200);
 		}
-		var msg;
-		if(r.description){
-			msg = r.description;
-		}else{
-			msg = (r.mod? r.mod : 'grid') + '.' + (typeof r.func == 'string'? r.func : '');
-		}
-		var msgNode = "<div><p>" + msg + "</p></div>";
-		consoleNode.innerHTML += msgNode; 
+
 		
 	};
 	
@@ -150,7 +144,7 @@ require([
 		}		
 		setInterval(function(){
 			runCase(nextRoutine());
-		}, 200);
+		}, 300);
 	};
 	
 	var run = function(){
@@ -182,6 +176,16 @@ require([
 		return mod;
 	}
 	
+	function _log(r){
+		var msg;
+		if(r.description){
+			msg = r.description;
+		}else{
+			msg = (r.mod? r.mod : 'grid') + '.' + (typeof r.func == 'string'? r.func : '');
+		}
+		var msgNode = "<div><p>" + msg + "</p></div>";
+		consoleNode.innerHTML += msgNode;		
+	}
 	createGrid();
 	
 	
