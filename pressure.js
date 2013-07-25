@@ -114,7 +114,7 @@ require([
 					r.after.apply(grid, []);
 				}, 200);
 			}
-			_log(r);
+			// _log(r);
 		}
 	};
 	
@@ -130,6 +130,7 @@ require([
 			_interval = setInterval(function(){
 				runCase(r);
 			}, 200);
+			_log(r);
 		}
 
 		
@@ -143,7 +144,9 @@ require([
 			return routines[index];
 		}		
 		setInterval(function(){
-			runCase(nextRoutine());
+			var r = nextRoutine();
+			runCase(r);
+			_log(r);
 		}, 300);
 	};
 	
