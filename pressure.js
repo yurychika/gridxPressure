@@ -34,11 +34,12 @@ require([
 	on(document.getElementById('nextButton'), 'click', function(){
 		nextRoutine();
 	});
-	
+
 	var jsonMemoryStore = new Memory({
 		dataSource: dataSource,
 		size: 1000			
 	});
+	
 	var columns = [
 		{id: 'id', field: 'id', name: 'Identity', width: 'auto', dataType: 'number', decorator: function(cellData){
 			return parseInt(cellData, 10) + 'name';
@@ -50,10 +51,9 @@ require([
 		{id: 'bool', field: 'bool', name: 'Boolean', dataType: 'boolean'}
 	];	
 	
-	var createGrid = function(){
+	var createGrid = function(config){
 		var d = new Deferred();
-
-		grid = new Grid({
+		var dc = {			//default config
 			cacheClass: cache,
 			store: jsonMemoryStore,
 			structure: columns,
@@ -69,7 +69,11 @@ require([
 				'gridx/modules/filter/FilterBar'
 			],
 			paginationInitialPageSize: 100
-		});
+		};
+
+		if(config) dc = lang.mixin(dc, config);
+		
+		grid = new Grid(dc);
 		grid.connect(grid, 'onModulesLoaded', function(){
 			d.callback();
 		});
@@ -123,6 +127,10 @@ require([
 		nextRoutine;
 	nextRoutine = function(){
 		_routine = config.routines.shift();
+		
+		grid.destroy();
+		createGrid(_routine.config);
+		
 		_log(_routine);
 		return _routine;
 	};

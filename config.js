@@ -1,16 +1,19 @@
 define([
 	'dojo/_base/query',
 	'gridx/tests/support/stores/Memory',
-	'gridx/tests/support/data/TestData'
-], function(query, Memory, dataSource){
+	'gridx/tests/support/data/TestData',
+	'gridx/allModules'
+], function(query, Memory, dataSource, allMods){
 
 /**
  *
- * 	pressure test case structure
- * {
- * 		mod: 'pagination',			//string:
- * 									//		the name of the module where functions will be called on
- * 									//		if is '', means functions will be called on gridx
+ *	pressure test case structure
+ *	{
+ * 	
+ * 		
+ *		mod: 'pagination',			//string:
+ *									//		the name of the module where functions will be called on
+ *									//		if is '', means functions will be called on gridx
  * 		func: 'gotoPage',			//string:
  * 									//		the name of the function that will be called
  * 									//function:
@@ -26,12 +29,31 @@ define([
  * 									//		indicate if the test case will need to create a new gridx
  * 									//		everytime it runs
  * 
- * }
+ *	}
  *  
  */
+	var smallMemoryStore = new Memory({
+			dataSource: dataSource,
+			size: 1000			
+		}),
+		mediumMemoryStore = new Memory({
+			dataSource: dataSource,
+			size: 10000			
+		}),
+		largeMemoryStore = new Memory({
+			dataSource: dataSource,
+			size: 50000		
+		});	
+		
+	
 	
 	var routines = [
+		// ============================ pagination ============================
 		{
+			config: {
+				modules: [allMods.Pagination, allMods.PaginationBar],
+				store: smallMemoryStore
+			},
 			forced: ['pagination', 'paginationBar'],
 			mod: 'pagination',
 			func: 'gotoPage',
