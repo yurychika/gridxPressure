@@ -130,7 +130,7 @@ define([
 			forced: [],
 			mod: 'select.row',
 			// deferred: true,
-			needRecreate: true,
+			needRecreate: false,
 			func: 'selectById',
 			parameter: function(){
 				var count = grid.model.size();

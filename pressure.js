@@ -37,7 +37,7 @@ require([
 	
 	var jsonMemoryStore = new Memory({
 		dataSource: dataSource,
-		size: 200				
+		size: 1000			
 	});
 	var columns = [
 		{id: 'id', field: 'id', name: 'Identity', width: 'auto', dataType: 'number', decorator: function(cellData){
@@ -121,18 +121,22 @@ require([
 	
 	var runSingle, 
 		nextRoutine;
-	runSingle = nextRoutine = function(){
-		stop();
-		var routines = config.routines,
-			r = routines.shift();
+	nextRoutine = function(){
+		_routine = config.routines.shift();
+		_log(_routine);
+		return _routine;
+	};
+	
+	runSingle = function(){
+		// stop();
+		var routines = config.routines;
+		_routine = _routine? _routine : nextRoutine();
 			
-		if(r){
+		if(_routine){
 			_interval = setInterval(function(){
-				runCase(r);
+				runCase(_routine);
 			}, 200);
-			_log(r);
 		}
-
 		
 	};
 	
@@ -189,6 +193,7 @@ require([
 		var msgNode = "<div><p>" + msg + "</p></div>";
 		consoleNode.innerHTML += msgNode;		
 	}
+	
 	createGrid();
 	
 	
