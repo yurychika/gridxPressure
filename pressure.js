@@ -139,11 +139,12 @@ require([
 		// stop();
 		var routines = config.routines;
 		_routine = _routine? _routine : nextRoutine();
-			
+		
 		if(_routine){
+			var t = _routine.timeout? _routine.timeout : 200;
 			_interval = setInterval(function(){
 				runCase(_routine);
-			}, 200);
+			}, t);
 		}
 		
 	};
