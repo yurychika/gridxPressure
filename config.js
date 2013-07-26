@@ -34,7 +34,7 @@ define([
  */
 	var smallMemoryStore = new Memory({
 			dataSource: dataSource,
-			size: 1000			
+			size: 100			
 		}),
 		mediumMemoryStore = new Memory({
 			dataSource: dataSource,
@@ -250,7 +250,7 @@ define([
 			after: function(){
 				this.filterBar._filterDialog.hide();
 			},
-			timeout: 500
+			timeout: 700
 		},
 		{
 			mod: 'filterBar',
@@ -299,7 +299,28 @@ define([
 					gotoBtn._gotoDialog.hide();
 				}
 			}
-		}
+		},
+		//==================== hiddenColumns ===========================				
+		{
+			config:{
+				modules:[	allMods.HiddenColumns, 
+							// allMods.VirtualVScroller
+						],
+				store: smallMemoryStore
+			},
+			mod: 'hiddenColumns',		//if mod is empty, will be replaced by the grid object
+			func: 'add',
+			parameter: function(){
+				var count = grid._columns.length;
+				var colId = grid._columns[Math.floor(Math.random() * count)];
+				return [colId];
+			},
+			after: function(){
+				if(!this._columns.length){
+					this.hiddenColumns.clear();
+				}
+			}
+		},		
 	];
 	
 	return {
