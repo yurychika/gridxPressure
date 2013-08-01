@@ -17,6 +17,7 @@ require([
 	var _routine;
 	var consoleNode = document.getElementById('console');
 	var _mode  = 'single';
+	var _startIndex = 18;
 	
 	on(document.getElementById('startButton'), 'click', function(){
 		// _pause = false;
@@ -68,7 +69,7 @@ require([
 				'gridx/modules/Filter',
 				'gridx/modules/filter/FilterBar'
 			],
-			paginationInitialPageSize: 100
+			paginationInitialPageSize: 10
 		};
 
 		if(config) dc = lang.mixin(dc, config);
@@ -137,7 +138,8 @@ require([
 	
 	runSingle = function(){
 		// stop();
-		var routines = config.routines;
+		config.routines = config.routines.slice(_startIndex);
+		var routines = config.routines.slice(_startIndex);
 		_routine = _routine? _routine : nextRoutine();
 		
 		if(_routine){
