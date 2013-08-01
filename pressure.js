@@ -42,12 +42,12 @@ require([
 	});
 	
 	var columns = [
-		{id: 'id', field: 'id', name: 'Identity', width: 'auto', dataType: 'number', decorator: function(cellData){
+		{id: 'id', field: 'id', name: 'Identity', width: '200px', dataType: 'number', decorator: function(cellData){
 			return parseInt(cellData, 10) + 'name';
 		}},
-		{id: 'number', field: 'number', name: 'Number', width: 'auto', dataType: 'number'},
+		{id: 'number', field: 'number', name: 'Number', width: '200px', dataType: 'number'},
 		{id: 'string', field: 'string', name: 'String', width: 'auto', dataType: 'string'},
-		{id: 'date', field: 'date', name: 'Date', width: 'auto', dataType: 'date'},
+		{id: 'date', field: 'date', name: 'Date', width: '200px', dataType: 'date'},
 		{id: 'time', field: 'time', name: 'Time', width: 'auto', dataType: 'time'},
 		{id: 'bool', field: 'bool', name: 'Boolean', dataType: 'boolean'}
 	];	
@@ -59,6 +59,8 @@ require([
 			store: jsonMemoryStore,
 			structure: columns,
 			modules: [
+				
+				'gridx/modules/ColumnLock',
 				'gridx/modules/Pagination',
 				'gridx/modules/pagination/PaginationBar',
 				'gridx/modules/VirtualVScroller',

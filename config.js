@@ -320,7 +320,36 @@ define([
 					this.hiddenColumns.clear();
 				}
 			}
-		},		
+		},	
+		{	//19
+			mod: 'hScroller',		//if mod is empty, will be replaced by the grid object
+			func: 'scrollToColumn',
+			parameter: function(){
+				var count = grid._columns.length;
+				var colId = grid._columns[Math.floor(Math.random() * count)].id;
+				return [colId];
+			}
+		},	
+		{	//20
+			mod: 'hScroller',		//if mod is empty, will be replaced by the grid object
+			func: 'refresh',
+			parameter: function(){
+				return [];
+			}
+		},
+		{	//21
+			config:{
+				modules: [allMods.ColumnLock],
+				store: smallMemoryStore
+			},
+			mod: 'columnLock',		//if mod is empty, will be replaced by the grid object
+			func: 'lock',
+			parameter: function(){
+				var count = this._columns.length;
+				var lockCount = Math.ceil(Math.random() * count);
+				return [lockCount];		
+			}
+		},									
 	];
 	
 	return {

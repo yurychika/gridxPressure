@@ -61,8 +61,6 @@ grid.hiddenColumns.remove();
 grid.hiddenColumns.clear();
 grid.hiddenColumns.get();
 grid.hLayout.reLayout();
-grid.hScroller.scrollToColumn();
-grid.hScroller.refresh();
 grid.menu.bind();
 grid.menu.unbind();
 grid.sort.isSorted();
@@ -113,4 +111,7 @@ grid.filterBar.hide();
 grid.filterBar.showFilterDialog();			leak & fixed
 gotoBtn._showGotoDialog.
 grid.body.refresh();
+grid.hScroller.scrollToColumn();
+grid.hScroller.refresh();
+grid.columnLock.lock();
 
