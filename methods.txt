@@ -36,8 +36,6 @@ grid.body.refreshCell();
 grid.cellWidget.setCellDecorator();
 grid.cellWidget.restoreCellDecorator();
 grid.cellWidget.getCellWidget();
-grid.columnLock.lock();
-grid.columnLock.unlock();
 grid.columnResizer.setWidth();
 grid.dod.show();
 grid.dod.hide();
@@ -114,4 +112,5 @@ grid.body.refresh();
 grid.hScroller.scrollToColumn();
 grid.hScroller.refresh();
 grid.columnLock.lock();
-
+grid.columnLock.unlock();
+grid.columnResizer.setWidth();

@@ -113,8 +113,12 @@ require([
 		if(!_pause){
 			if(r.before && typeof r.before == 'function'){
 				r.before.apply(grid, []);
+				setTimeout(function(){
+					func.apply(mod, r.parameter.apply(grid, [])); 
+				}, 100);
+			}else{
+				func.apply(mod, r.parameter.apply(grid, [])); 
 			}
-			func.apply(mod, r.parameter.apply(grid, [])); 
 			
 			if(r.after && typeof r.after == 'function'){
 				setTimeout(function(){

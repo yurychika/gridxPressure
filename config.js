@@ -337,6 +337,7 @@ define([
 				return [];
 			}
 		},
+		//==================== columnLock ===========================				
 		{	//21
 			config:{
 				modules: [allMods.ColumnLock],
@@ -346,10 +347,40 @@ define([
 			func: 'lock',
 			parameter: function(){
 				var count = this._columns.length;
-				var lockCount = Math.ceil(Math.random() * count);
+				var lockCount = Math.ceil(Math.random() * count / 2);
 				return [lockCount];		
 			}
-		},									
+		},
+		{	//22
+			config:{
+				modules: [allMods.ColumnLock],
+				store: smallMemoryStore
+			},
+			before: function(){
+				var count = this._columns.length;
+				var lockCount = Math.ceil(Math.random() * count / 2);
+				this.columnLock.lock(lockCount);
+			},
+			mod: 'columnLock',		//if mod is empty, will be replaced by the grid object
+			func: 'unlock',
+			parameter: function(){
+				return [];
+			}
+		},		
+		{	//23
+			config:{
+				modules: [allMods.ColumnResizer],
+				store: smallMemoryStore
+			},
+			mod: 'columnResizer',		//if mod is empty, will be replaced by the grid object
+			func: 'setWidth',
+			parameter: function(){
+				var count = this._columns.length;
+				var colId = this._columns[Math.floor(Math.random() * count)].id;
+				var width = Math.floor(Math.random() * 140 + 60);
+				return [colId, width];
+			}
+		},												
 	];
 	
 	return {
