@@ -49,7 +49,7 @@ define([
 	
 	var routines = [
 		// ============================ pagination ============================
-		{	//0
+		{
 			config: {
 				modules: [allMods.Pagination, allMods.PaginationBar],
 				store: smallMemoryStore
@@ -61,7 +61,7 @@ define([
 				return [Math.floor(Math.random()*100) % c];
 			}
 		},
-		{	//1
+		{
 			config: {
 				modules: [allMods.Pagination, allMods.PaginationBar],
 				store: smallMemoryStore
@@ -73,7 +73,7 @@ define([
 				return [Math.floor(Math.random()*100)];
 			}
 		},		
-		{	//2
+		{
 			config: {
 				modules: [allMods.VirtualVScroller],
 				store: mediumMemoryStore
@@ -86,7 +86,7 @@ define([
 				return [Math.floor(Math.random() * c)];
 			}
 		},
-		{	//3
+		{
 			mod: '',
 			func: 'resize',
 			parameter: function(){
@@ -95,7 +95,7 @@ define([
 				return [{h: h, w: w}];
 			}
 		},
-		{	//4
+		{
 			mod: '',
 			func: 'setStore',
 			parameter: function(){
@@ -107,7 +107,7 @@ define([
 				return [store];
 			}
 		},
-		{	//5
+		{
 			mod: '',
 			func: 'setColumns',
 			parameter: function(){
@@ -116,7 +116,7 @@ define([
 				return [columns];
 			}
 		},
-		{	//6
+		{
 			mod: 'body',
 			// deferred: true,
 			func: 'refresh',
@@ -125,7 +125,7 @@ define([
 				return [Math.floor(Math.random()*100) % c];
 			}
 		},
-		{	//7
+		{
 			config: {
 				modules: [allMods.Pagination, allMods.PaginationBar],
 				store: smallMemoryStore
@@ -138,7 +138,7 @@ define([
 				// return [Math.floor(Math.random()*100) % c];
 			}
 		},
-		{	//8
+		{
 			config: {
 				modules: [allMods.SingleSort],
 				store: smallMemoryStore
@@ -154,7 +154,7 @@ define([
 			}
 		},
 		// ============================ select.row ===============================
-		{	//9
+		{
 			config: {
 				modules: [	allMods.ExtendedSelectRow, 
 							allMods.RowHeader, 
@@ -170,7 +170,7 @@ define([
 				return [rowId];
 			}
 		},
-		{	//10
+		{
 			config: {
 				modules: [	allMods.ExtendedSelectRow, 
 							allMods.RowHeader, 
@@ -194,7 +194,7 @@ define([
 				return [_t];
 			}
 		},				
-		{	//11
+		{
 			config: {
 				modules: [	allMods.ExtendedSelectRow, 
 							allMods.RowHeader, 
@@ -214,7 +214,7 @@ define([
 				this.select.row.clear();
 			}
 		},	
-		{	//12
+		{
 			config: {
 				modules: [	allMods.ExtendedSelectRow, 
 							allMods.RowHeader, 
@@ -240,7 +240,7 @@ define([
 		},	
 		
 		//======================= filter bar ===========================			
-		{	//13
+		{
 			mod: 'filterBar',
 			// needRecreate: true,
 			func: 'showFilterDialog',
@@ -252,7 +252,7 @@ define([
 			},
 			timeout: 700
 		},
-		{	//14
+		{
 			mod: 'filterBar',
 			func: 'refresh',
 			parameter: function(){
@@ -260,7 +260,7 @@ define([
 				return [];
 			}
 		},	
-		{	//15
+		{
 			mod: 'filterBar',
 			func: 'show',
 			parameter: function(){
@@ -270,7 +270,7 @@ define([
 				this.filterBar.hide();
 			}
 		},		
-		{	//16
+		{
 			mod: 'filterBar',
 			func: 'hide',
 			before: function(){
@@ -281,7 +281,7 @@ define([
 			}
 		},
 		//==================== pagination ===========================				
-		{	//17
+		{
 			mod: '',		//if mod is empty, will be replaced by the grid object
 			description: 'gotoBtn._showGotoDialog',
 			func: function(){
@@ -301,7 +301,7 @@ define([
 			}
 		},
 		//==================== hiddenColumns ===========================				
-		{	//18
+		{
 			config:{
 				modules:[	allMods.HiddenColumns, 
 							// allMods.VirtualVScroller
@@ -321,7 +321,8 @@ define([
 				}
 			}
 		},	
-		{	//19
+		//==================== hScroller ===========================		
+		{
 			mod: 'hScroller',		//if mod is empty, will be replaced by the grid object
 			func: 'scrollToColumn',
 			parameter: function(){
@@ -330,7 +331,7 @@ define([
 				return [colId];
 			}
 		},	
-		{	//20
+		{
 			mod: 'hScroller',		//if mod is empty, will be replaced by the grid object
 			func: 'refresh',
 			parameter: function(){
@@ -351,7 +352,7 @@ define([
 				return [lockCount];		
 			}
 		},
-		{	//22
+		{
 			config:{
 				modules: [allMods.ColumnLock],
 				store: smallMemoryStore
@@ -367,7 +368,7 @@ define([
 				return [];
 			}
 		},		
-		{	//23
+		{
 			config:{
 				modules: [allMods.ColumnResizer],
 				store: smallMemoryStore
